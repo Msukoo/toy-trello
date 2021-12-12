@@ -1,4 +1,4 @@
-package com.toy.trelloapi;
+package com.toy.trelloapi.helloWorld;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
