@@ -10,7 +10,7 @@ import java.util.Date;
 @Getter @Setter
 @AllArgsConstructor
 public class Card {
-    @NotNull
+
     private Integer cardId;
     @NotNull
     private Integer workListId;
@@ -20,7 +20,7 @@ public class Card {
     private String cardDesc;
     @NotNull
     private Long cardOrd;
-    @NotNull
+
     private boolean useYn;
 
     private String regId;
