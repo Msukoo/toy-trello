@@ -1,2 +1,2 @@
 # toy-trello
-study toy project
+trello-demo rest api
