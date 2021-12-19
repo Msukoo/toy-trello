@@ -1,16 +1,19 @@
-package com.toy.trelloapi.card;
+package com.toy.trelloapi.domain.entity;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
-@Getter @Setter
-@AllArgsConstructor
+@Getter
+@Entity
 public class Card {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cardId;
     @NotNull
     private Integer workListId;
@@ -20,7 +23,7 @@ public class Card {
     private String cardDesc;
     @NotNull
     private Long cardOrd;
-
+    @NotNull
     private boolean useYn;
 
     private String regId;

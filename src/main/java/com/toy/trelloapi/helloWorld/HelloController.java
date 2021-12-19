@@ -1,6 +1,5 @@
 package com.toy.trelloapi.helloWorld;
 
-import com.toy.trelloapi.card.Card;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
