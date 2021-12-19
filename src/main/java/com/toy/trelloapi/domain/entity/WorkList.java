@@ -9,6 +9,7 @@ import java.util.List;
 
 @Getter
 @Entity
+@Table(name = "workList")
 public class WorkList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,5 +25,8 @@ public class WorkList {
     private Date regDtime;
     private String modId;
     private Date modDtime;
+
+    @OneToMany(mappedBy = "workList")
+    private List<Card> card;
 
 }
