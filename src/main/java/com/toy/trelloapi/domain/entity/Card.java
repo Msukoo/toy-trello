@@ -1,13 +1,16 @@
 package com.toy.trelloapi.domain.entity;
 
 import com.sun.istack.NotNull;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Getter
 @Entity
+@NoArgsConstructor
 @Table(name = "card")
 public class Card {
     @Id
@@ -19,18 +22,21 @@ public class Card {
     @JoinColumn(name="workListId")
     private WorkList workList;
 
-    @NotNull
+    @Column(length = 50, nullable = false)
     private String cardTitle;
-    @NotNull
+    @Column(length = 50, nullable = false)
     private String cardDesc;
-    @NotNull
+    @Column(length = 50, nullable = false)
     private Long cardOrd;
-    @NotNull
+    @Column(length = 50, nullable = false)
     private boolean useYn;
-
+    @Column(length = 50, nullable = false)
     private String regId;
+    @Column
     private Date regDTime;
+    @Column(length = 50, nullable = false)
     private String modId;
+    @Column
     private Date modDTime;
 
 }
