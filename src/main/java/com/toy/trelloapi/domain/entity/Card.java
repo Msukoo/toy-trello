@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -33,10 +34,10 @@ public class Card {
     @Column(length = 20, nullable = false)
     private String regId;
     @Column
-    private Date regDTime;
+    private LocalDateTime regDTime;
     @Column(length = 20, nullable = false)
     private String modId;
     @Column
-    private Date modDTime;
+    private LocalDateTime modDTime;
 
 }
