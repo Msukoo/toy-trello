@@ -22,19 +22,19 @@ public class Card {
     @JoinColumn(name="workListId")
     private WorkList workList;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 100, nullable = false)
     private String cardTitle;
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false)
     private String cardDesc;
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false)
     private Long cardOrd;
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false)
     private boolean useYn;
-    @Column(length = 50, nullable = false)
+    @Column(length = 20, nullable = false)
     private String regId;
     @Column
     private Date regDTime;
-    @Column(length = 50, nullable = false)
+    @Column(length = 20, nullable = false)
     private String modId;
     @Column
     private Date modDTime;
