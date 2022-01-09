@@ -4,19 +4,18 @@ import com.toy.trelloapi.domain.dto.CardDto;
 import com.toy.trelloapi.domain.entity.Card;
 import com.toy.trelloapi.domain.exception.CardNotFoundException;
 import com.toy.trelloapi.domain.service.CardService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class IndexController {
 
-    private CardService cardService;
+    private final CardService cardService;
 
     @GetMapping("/")
     public String trello(){
