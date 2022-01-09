@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface WorkListRepository extends JpaRepository<WorkList, Integer> {
     List<WorkList> findAllBy();
-    WorkList findByWorkListId();
+    WorkList findByWorkListId(Integer id);
 }
