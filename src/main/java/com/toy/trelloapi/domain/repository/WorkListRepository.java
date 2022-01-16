@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface WorkListRepository extends JpaRepository<WorkList, Long> {
+public interface WorkListRepository extends JpaRepository<WorkList, Long>, QueryByExampleExecutor<WorkList>, WorkListForQueryDsl {
     List<WorkList> findAllBy();
     WorkList findByWorkListId(Integer id);
 }
