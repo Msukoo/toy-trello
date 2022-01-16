@@ -5,6 +5,7 @@ import com.toy.trelloapi.domain.entity.Card;
 import com.toy.trelloapi.domain.repository.CardQueryRepository;
 import com.toy.trelloapi.domain.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
