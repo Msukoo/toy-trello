@@ -16,7 +16,7 @@ import java.util.Date;
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cardId;
+    private Long cardId;
 
     @NotNull
     @ManyToOne

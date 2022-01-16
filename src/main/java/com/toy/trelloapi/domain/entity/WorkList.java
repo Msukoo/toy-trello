@@ -16,11 +16,11 @@ import java.util.List;
 public class WorkList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer workListId;
+    private Long workListId;
     @Column(length = 100, nullable = false)
     private String workListTitle;
     @Column(nullable = false)
-    private Integer workListOrd;
+    private Long workListOrd;
     @Column(nullable = false)
     private boolean useYn;
     @Column(length = 20, nullable = false)
