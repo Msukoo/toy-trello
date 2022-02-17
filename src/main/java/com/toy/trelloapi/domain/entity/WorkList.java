@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@Builder
 @Table(name = "workList")
 public class WorkList {
     @Id
@@ -21,7 +21,7 @@ public class WorkList {
     private String workListTitle;
     @Column(nullable = false)
     private Long workListOrd;
-    @Column(nullable = false)
+    @Column(columnDefinition = "boolean default true")
     private boolean useYn;
     @Column(length = 20, nullable = false)
     private String regId;
@@ -34,5 +34,11 @@ public class WorkList {
 
     @OneToMany(mappedBy = "workList")
     private List<Card> card;
+
+//    @PrePersist
+//    public void regDtime() {
+//        LocalDateTime currentDateTime = LocalDateTime.now();
+//        this.regDtime = currentDateTime;
+//    }
 
 }
