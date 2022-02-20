@@ -4,7 +4,6 @@ import com.toy.trelloapi.domain.entity.WorkList;
 import com.toy.trelloapi.domain.repository.WorkListQueryRepository;
 import com.toy.trelloapi.domain.repository.WorkListRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.jdbc.Work;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

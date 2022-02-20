@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface WorkListRepository extends JpaRepository<WorkList, Long>, QueryByExampleExecutor<WorkList>, WorkListForQueryDsl {
     List<WorkList> findAllBy();
-    WorkList findByWorkListId(Integer id);
+    WorkList findByWorkListId(Long id);
 }
