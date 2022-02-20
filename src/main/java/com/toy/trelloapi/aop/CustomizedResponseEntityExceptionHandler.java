@@ -1,6 +1,7 @@
 package com.toy.trelloapi.aop;
 
 import com.toy.trelloapi.domain.exception.CardNotFoundException;
+import com.toy.trelloapi.domain.exception.WorkListNotFoundException;
 import com.toy.trelloapi.infra.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,12 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     public final ResponseEntity<Object> handleAllException(Exception ex, WebRequest request){
         ExceptionResponse exceptionResponse = getExceptionResponse(ex, request);
         return new ResponseEntity(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(WorkListNotFoundException.class)
+    public final ResponseEntity<Object> handleWorkListNotFoundException(Exception ex, WebRequest request){
+        ExceptionResponse exceptionResponse = getExceptionResponse(ex, request);
+        return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CardNotFoundException.class)

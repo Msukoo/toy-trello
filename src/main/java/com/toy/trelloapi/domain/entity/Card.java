@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@Builder
 @Table(name = "card")
 public class Card {
     @Id
