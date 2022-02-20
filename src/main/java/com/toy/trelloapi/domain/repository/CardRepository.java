@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CardRepository extends JpaRepository<Card, Integer>, QueryByExampleExecutor<Card>, CardRepositoryForQueryDsl{
+public interface CardRepository extends JpaRepository<Card, Long>, QueryByExampleExecutor<Card>, CardRepositoryForQueryDsl{
     List<Card> findAllBy();
     Card findByCardId(Integer id);
 }

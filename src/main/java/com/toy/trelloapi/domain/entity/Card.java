@@ -11,12 +11,12 @@ import java.util.Date;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@Builder
 @Table(name = "card")
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cardId;
+    private Long cardId;
 
     @NotNull
     @ManyToOne

@@ -11,17 +11,17 @@ import java.util.List;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@Builder
 @Table(name = "workList")
 public class WorkList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer workListId;
+    private Long workListId;
     @Column(length = 100, nullable = false)
     private String workListTitle;
     @Column(nullable = false)
-    private Integer workListOrd;
-    @Column(nullable = false)
+    private Long workListOrd;
+    @Column(columnDefinition = "boolean default true")
     private boolean useYn;
     @Column(length = 20, nullable = false)
     private String regId;
@@ -34,5 +34,11 @@ public class WorkList {
 
     @OneToMany(mappedBy = "workList")
     private List<Card> card;
+
+//    @PrePersist
+//    public void regDtime() {
+//        LocalDateTime currentDateTime = LocalDateTime.now();
+//        this.regDtime = currentDateTime;
+//    }
 
 }
