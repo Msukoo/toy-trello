@@ -20,8 +20,4 @@ public class CardDto {
     private String modId;
     private LocalDateTime modDTime;
 
-    @Builder
-    private void CardDto(){
-
-    }
 }
