@@ -2,6 +2,7 @@ package com.toy.trelloapi.domain.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Getter
 @Entity
+@DynamicUpdate
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "workList")
@@ -59,6 +61,13 @@ public class WorkList {
         this.modId = modId;
         this.modDtime = modDtime;
     }
+
+    public void changeWorkList(String workListTitle, String modId, LocalDateTime modDtime) {
+        this.workListTitle = workListTitle;
+        this.modId = modId;
+        this.modDtime = modDtime;
+    }
+
 
 //    @PrePersist
 //    public void regDtime() {
