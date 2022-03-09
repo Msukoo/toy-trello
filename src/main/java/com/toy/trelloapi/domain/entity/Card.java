@@ -22,16 +22,22 @@ public class Card {
 
     @Column(length = 100, nullable = false)
     private String cardTitle;
+
     @Column(nullable = false)
     private Long cardOrd;
+
     @Column(columnDefinition = "boolean default true")
     private boolean useYn;
+
     @Column(length = 20, nullable = false)
     private String regId;
+
     @Column
     private LocalDateTime regDtime;
+
     @Column(length = 20, nullable = false)
     private String modId;
+
     @Column
     private LocalDateTime modDtime;
 
