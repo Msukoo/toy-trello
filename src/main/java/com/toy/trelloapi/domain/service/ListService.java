@@ -4,6 +4,7 @@ import com.toy.trelloapi.domain.dto.CardDto;
 import com.toy.trelloapi.domain.dto.WorkListDto;
 import com.toy.trelloapi.domain.entity.Card;
 import com.toy.trelloapi.domain.entity.WorkList;
+import com.toy.trelloapi.domain.exception.WorkListNotFoundException;
 import com.toy.trelloapi.domain.repository.WorkListQueryRepository;
 import com.toy.trelloapi.domain.repository.WorkListRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,7 +46,8 @@ public class ListService {
     @Transactional
     public void updateWorkList(WorkListDto workListDto) {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        WorkList workList = workListRepository.getById(workListDto.getWorkListId());
+        Optional<WorkList> optWorkList = Optional.ofNullable(workListRepository.findByWorkListId(workListDto.getWorkListId()));
+        WorkList workList = optWorkList.orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
         workList.changeWorkList(workListDto.getWorkListTitle(), "admin", currentDateTime);
     }
 
