@@ -7,11 +7,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/list")
 @RequiredArgsConstructor
 public class WorkListController {
     private final ListService listService;
+
+    @GetMapping("")
+    public ResponseEntity findAll(){
+        List<WorkListDto> workLists = listService.findAll();
+        return ResponseEntity.ok().body(workLists);
+    }
 
     @PostMapping("")
     public ResponseEntity saveWorkList(@RequestBody String workListTitle){

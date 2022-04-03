@@ -21,13 +21,13 @@ public class IndexController {
         return "trello";
     }
 
-    @GetMapping("/card/{id}")
-    public Card showCards(@PathVariable int id){
-        Card card = cardService.getCardById(id);
-        if(card == null){
-            throw new CardNotFoundException(String.format("ID[%s] not found", id));
-        }
-        return card;
-    }
+//    @GetMapping("/card/{id}")
+//    public Card showCards(@PathVariable int id){
+//        Card card = cardService.getCardById(id);
+//        if(card == null){
+//            throw new CardNotFoundException(String.format("ID[%s] not found", id));
+//        }
+//        return card;
+//    }
 
 }

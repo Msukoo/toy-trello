@@ -1,14 +1,16 @@
 package com.toy.trelloapi.domain.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 public class WorkListDto {
     private Long workListId;
     private String workListTitle;
@@ -18,5 +20,6 @@ public class WorkListDto {
     private LocalDateTime regDtime;
     private String modId;
     private LocalDateTime modDtime;
+    private List<CardDto> cardList;
 
 }

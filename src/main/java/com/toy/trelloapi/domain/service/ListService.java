@@ -1,14 +1,20 @@
 package com.toy.trelloapi.domain.service;
 
+import com.toy.trelloapi.domain.dto.CardDto;
 import com.toy.trelloapi.domain.dto.WorkListDto;
+import com.toy.trelloapi.domain.entity.Card;
 import com.toy.trelloapi.domain.entity.WorkList;
 import com.toy.trelloapi.domain.repository.WorkListQueryRepository;
 import com.toy.trelloapi.domain.repository.WorkListRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +22,7 @@ public class ListService {
 
     private final WorkListRepository workListRepository;
     private final WorkListQueryRepository workListQueryRepository;
+    private final ModelMapper modelMapper;
 
     public WorkList saveWorkList(String workListTitle) {
 
@@ -43,5 +50,44 @@ public class ListService {
 
     private Long getNextWorkListOrd(){
         return workListQueryRepository.findLastWorkListOrd() + 1000L;
+    }
+
+    public List<WorkListDto> findAll() {
+        Sort sort = Sort.by(Sort.Direction.ASC, "workListOrd");
+        List<WorkList> workLists = workListRepository.findAll(sort);
+
+        return workLists.stream()
+                .map(x -> {
+                    List<Card> cardList = x.getCard();
+                    List<CardDto> cardDtoList = cardList.stream()
+//                                                        .map(y -> modelMapper.map(y, CardDto.class))
+                                                        .map(y -> {
+                                                            return CardDto.builder()
+                                                                    .cardId(y.getCardId())
+                                                                    .workListId(y.getWorkList().getWorkListId())
+                                                                    .cardTitle(y.getCardTitle())
+                                                                    .cardOrd(y.getCardOrd())
+                                                                    .regId(y.getRegId())
+                                                                    .regDTime(y.getRegDtime())
+                                                                    .modId(y.getModId())
+                                                                    .modDTime(y.getModDtime())
+                                                                    .build();
+                                                        })
+                                                        .collect(Collectors.toList());
+//                    WorkListDto workListDto = modelMapper.map(x, WorkListDto.class);
+                    WorkListDto workListDto = WorkListDto.builder()
+                                                .workListId(x.getWorkListId())
+                                                .workListTitle(x.getWorkListTitle())
+                                                .workListOrd(x.getWorkListOrd())
+                                                .regId(x.getRegId())
+                                                .regDtime(x.getRegDtime())
+                                                .modId(x.getModId())
+                                                .modDtime(x.getModDtime())
+                                                .build();
+                    workListDto.setCardList(cardDtoList);
+                    return workListDto;
+                })
+//                .map(x -> modelMapper.map(x, WorkListDto.class))
+                .collect(Collectors.toList());
     }
 }
