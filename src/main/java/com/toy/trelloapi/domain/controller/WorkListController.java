@@ -3,6 +3,7 @@ package com.toy.trelloapi.domain.controller;
 import com.toy.trelloapi.domain.dto.WorkListDto;
 import com.toy.trelloapi.domain.entity.WorkList;
 import com.toy.trelloapi.domain.service.ListService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,18 +16,21 @@ import java.util.List;
 public class WorkListController {
     private final ListService listService;
 
+    @ApiOperation(value = "메인 페이지 workList, card 목록 불러오기")
     @GetMapping("")
     public ResponseEntity findAll(){
         List<WorkListDto> workLists = listService.findAll();
         return ResponseEntity.ok().body(workLists);
     }
 
+    @ApiOperation(value = "")
     @PostMapping("")
     public ResponseEntity saveWorkList(@RequestBody String workListTitle){
         WorkList workList = listService.saveWorkList(workListTitle);
         return ResponseEntity.ok().body(workList.getWorkListId());
     }
 
+    @ApiOperation(value = "")
     @PutMapping("/{workListId}")
     public ResponseEntity updateWorkList(@PathVariable Long workListId, @RequestBody WorkListDto workListDto){
         workListDto.setWorkListId(workListId);
