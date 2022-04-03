@@ -40,7 +40,7 @@ public class WorkList {
     @Column
     private LocalDateTime modDtime;
 
-    @OneToMany(mappedBy = "workList")
+    @OneToMany(mappedBy = "workList", fetch = FetchType.LAZY)
     private List<Card> card;
 
     @Builder
