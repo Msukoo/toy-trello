@@ -46,7 +46,7 @@ public class ListService {
     @Transactional
     public void updateWorkList(WorkListDto workListDto) {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        Optional<WorkList> optWorkList = Optional.ofNullable(workListRepository.findByWorkListId(workListDto.getWorkListId()));
+        Optional<WorkList> optWorkList = workListRepository.findByWorkListId(workListDto.getWorkListId());
         WorkList workList = optWorkList.orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
         workList.changeWorkList(workListDto.getWorkListTitle(), "admin", currentDateTime);
     }
@@ -55,9 +55,9 @@ public class ListService {
         return workListQueryRepository.findLastWorkListOrd() + 1000L;
     }
 
+    @Transactional
     public List<WorkListDto> findAll() {
-        Sort sort = Sort.by(Sort.Direction.ASC, "workListOrd");
-        List<WorkList> workLists = workListRepository.findAll(sort);
+        List<WorkList> workLists = workListRepository.findAllByUseYnEqualsOrderByWorkListOrd(true);
 
         return workLists.stream()
                 .map(x -> {
@@ -83,6 +83,7 @@ public class ListService {
                                 .regDtime(x.getRegDtime())
                                 .modId(x.getModId())
                                 .modDtime(x.getModDtime())
+                                .useYn(x.isUseYn())
                                 .cardList(cardDtoList)
                                 .build();
                 })

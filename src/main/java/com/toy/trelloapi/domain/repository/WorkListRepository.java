@@ -7,11 +7,14 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface WorkListRepository extends JpaRepository<WorkList, Long>, QueryByExampleExecutor<WorkList>, WorkListForQueryDsl {
-    List<WorkList> findAllBy();
+    List<WorkList> findAllByUseYnEqualsOrderByWorkListOrd(Boolean isUse);
 
     @Query("select w from WorkList w join fetch w.card")
-    WorkList findByWorkListId(Long id);
+    Optional<WorkList> findByWorkListId(Long id);
+
+
 }
