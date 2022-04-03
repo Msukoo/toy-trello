@@ -60,9 +60,7 @@ public class ListService {
                 .map(x -> {
                     List<Card> cardList = x.getCard();
                     List<CardDto> cardDtoList = cardList.stream()
-//                                                        .map(y -> modelMapper.map(y, CardDto.class))
-                                                        .map(y -> {
-                                                            return CardDto.builder()
+                                                        .map(y -> CardDto.builder()
                                                                     .cardId(y.getCardId())
                                                                     .workListId(y.getWorkList().getWorkListId())
                                                                     .cardTitle(y.getCardTitle())
@@ -71,23 +69,20 @@ public class ListService {
                                                                     .regDTime(y.getRegDtime())
                                                                     .modId(y.getModId())
                                                                     .modDTime(y.getModDtime())
-                                                                    .build();
-                                                        })
+                                                                    .build()
+                                                        )
                                                         .collect(Collectors.toList());
-//                    WorkListDto workListDto = modelMapper.map(x, WorkListDto.class);
-                    WorkListDto workListDto = WorkListDto.builder()
-                                                .workListId(x.getWorkListId())
-                                                .workListTitle(x.getWorkListTitle())
-                                                .workListOrd(x.getWorkListOrd())
-                                                .regId(x.getRegId())
-                                                .regDtime(x.getRegDtime())
-                                                .modId(x.getModId())
-                                                .modDtime(x.getModDtime())
-                                                .build();
-                    workListDto.setCardList(cardDtoList);
-                    return workListDto;
+                    return WorkListDto.builder()
+                                .workListId(x.getWorkListId())
+                                .workListTitle(x.getWorkListTitle())
+                                .workListOrd(x.getWorkListOrd())
+                                .regId(x.getRegId())
+                                .regDtime(x.getRegDtime())
+                                .modId(x.getModId())
+                                .modDtime(x.getModDtime())
+                                .cardList(cardDtoList)
+                                .build();
                 })
-//                .map(x -> modelMapper.map(x, WorkListDto.class))
                 .collect(Collectors.toList());
     }
 }
