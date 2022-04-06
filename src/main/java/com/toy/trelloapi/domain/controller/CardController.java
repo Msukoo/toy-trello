@@ -6,10 +6,7 @@ import com.toy.trelloapi.domain.entity.WorkList;
 import com.toy.trelloapi.domain.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/card")
@@ -19,8 +16,14 @@ public class CardController {
     private final CardService cardService;
 
     @PostMapping("")
-    public ResponseEntity saveWorkList(@RequestBody CardDto cardDto){
+    public ResponseEntity saveCardList(@RequestBody CardDto cardDto){
         Card card = cardService.saveCard(cardDto.getWorkListId(), cardDto.getCardTitle());
         return ResponseEntity.ok().body(card.getCardId());
+    }
+
+    @GetMapping("{cardId}")
+    public ResponseEntity getCard(@PathVariable Long cardId){
+        CardDto cardDto = cardService.getCardById(cardId);
+        return ResponseEntity.ok().body(cardDto);
     }
 }
