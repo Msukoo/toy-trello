@@ -18,8 +18,8 @@ public class CardController {
 
     @PostMapping("")
     public ResponseEntity saveCardList(@RequestBody CardDto cardDto){
-        Card card = cardService.saveCard(cardDto.getWorkListId(), cardDto);
-        return ResponseEntity.ok().body(card.getCardId());
+        cardDto = cardService.saveCard(cardDto.getWorkListId(), cardDto);
+        return ResponseEntity.ok().body(cardDto);
     }
 
     @GetMapping("{cardId}")

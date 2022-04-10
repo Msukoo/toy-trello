@@ -24,7 +24,7 @@ public class CardService {
     private final CardQueryRepository cardQueryRepository;
     private final ModelMapper modelMapper;
 
-    public Card saveCard(Long workListId, CardDto cardDto){
+    public CardDto saveCard(Long workListId, CardDto cardDto){
 
         LocalDateTime currentDateTime = LocalDateTime.now();
 
@@ -46,12 +46,12 @@ public class CardService {
                         .modId("admin")
                         .modDtime(currentDateTime)
                         .build()
-        );
+        ).convertCardDto();
     }
 
     public CardDto getCardById(Long cardId){
         Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("해당 카드를 찾을 수 없습니다."));
-        return modelMapper.map(card, CardDto.class);
+        return card.convertCardDto();
     }
 
     private Long getNextCardOrd() { return cardQueryRepository.findLastCardOrd() + 1000L; }
