@@ -26,11 +26,11 @@ public class ListService {
     private final WorkListQueryRepository workListQueryRepository;
     private final ModelMapper modelMapper;
 
-    public WorkList saveWorkList(String workListTitle) {
+    public WorkListDto saveWorkList(String workListTitle) {
 
         LocalDateTime currentDateTime = LocalDateTime.now();
 
-        WorkList workList =  workListRepository.save(
+        return workListRepository.save(
                                     WorkList.builder()
                                         .workListTitle(workListTitle)
                                         .workListOrd(getNextWorkListOrd())
@@ -40,8 +40,7 @@ public class ListService {
                                         .modId("admin")
                                         .modDtime(currentDateTime)
                                         .build()
-        );
-        return workList;
+        ).convertWorkListDto();
     }
 
     @Transactional

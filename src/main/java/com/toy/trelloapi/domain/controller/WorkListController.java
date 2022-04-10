@@ -27,8 +27,8 @@ public class WorkListController {
     @ApiOperation(value = "")
     @PostMapping("")
     public ResponseEntity saveWorkList(@RequestBody String workListTitle){
-        WorkList workList = listService.saveWorkList(workListTitle);
-        return ResponseEntity.ok().body(workList.getWorkListId());
+        WorkListDto workListDto = listService.saveWorkList(workListTitle);
+        return ResponseEntity.ok().body(workListDto);
     }
 
     @ApiOperation(value = "")
