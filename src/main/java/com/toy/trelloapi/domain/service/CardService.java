@@ -24,7 +24,7 @@ public class CardService {
     private final CardQueryRepository cardQueryRepository;
     private final ModelMapper modelMapper;
 
-    public Card saveCard(Long workListId, String cardTitle){
+    public Card saveCard(Long workListId, CardDto cardDto){
 
         LocalDateTime currentDateTime = LocalDateTime.now();
 
@@ -38,7 +38,7 @@ public class CardService {
         return cardRepository.save(
                 Card.builder()
                         .workList(workList.get()) //
-                        .cardTitle(cardTitle)
+                        .cardTitle(cardDto.getCardTitle())
                         .cardOrd(nextCardOrd)
                         .regId("admin")
                         .regDtime(currentDateTime)
@@ -50,8 +50,7 @@ public class CardService {
     }
 
     public CardDto getCardById(Long cardId){
-        Optional<Card> optCard = cardRepository.findById(cardId);
-        Card card = optCard.orElseThrow(() -> new CardNotFoundException("해당 카드를 찾을 수 없습니다."));
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("해당 카드를 찾을 수 없습니다."));
         return modelMapper.map(card, CardDto.class);
     }
 

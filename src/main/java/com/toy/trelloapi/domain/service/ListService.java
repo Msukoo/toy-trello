@@ -30,17 +30,18 @@ public class ListService {
 
         LocalDateTime currentDateTime = LocalDateTime.now();
 
-       return workListRepository.save(
-                WorkList.builder()
-                        .workListTitle(workListTitle)
-                        .workListOrd(getNextWorkListOrd())
-                        .regId("admin")
-                        .regDtime(currentDateTime)
-                        .useYn(true)
-                        .modId("admin")
-                        .modDtime(currentDateTime)
-                        .build()
+        WorkList workList =  workListRepository.save(
+                                    WorkList.builder()
+                                        .workListTitle(workListTitle)
+                                        .workListOrd(getNextWorkListOrd())
+                                        .regId("admin")
+                                        .regDtime(currentDateTime)
+                                        .useYn(true)
+                                        .modId("admin")
+                                        .modDtime(currentDateTime)
+                                        .build()
         );
+        return workList;
     }
 
     @Transactional
@@ -63,29 +64,11 @@ public class ListService {
                 .map(x -> {
                     List<Card> cardList = x.getCard();
                     List<CardDto> cardDtoList = cardList.stream()
-                                                        .map(y -> CardDto.builder()
-                                                                    .cardId(y.getCardId())
-                                                                    .workListId(y.getWorkList().getWorkListId())
-                                                                    .cardTitle(y.getCardTitle())
-                                                                    .cardOrd(y.getCardOrd())
-                                                                    .regId(y.getRegId())
-                                                                    .regDTime(y.getRegDtime())
-                                                                    .modId(y.getModId())
-                                                                    .modDTime(y.getModDtime())
-                                                                    .build()
-                                                        )
+                                                        .map(y -> y.convertCardDto())
                                                         .collect(Collectors.toList());
-                    return WorkListDto.builder()
-                                .workListId(x.getWorkListId())
-                                .workListTitle(x.getWorkListTitle())
-                                .workListOrd(x.getWorkListOrd())
-                                .regId(x.getRegId())
-                                .regDtime(x.getRegDtime())
-                                .modId(x.getModId())
-                                .modDtime(x.getModDtime())
-                                .useYn(x.isUseYn())
-                                .cardList(cardDtoList)
-                                .build();
+                    WorkListDto workListDto = x.convertWorkListDto();
+                    workListDto.setCardList(cardDtoList);
+                    return workListDto;
                 })
                 .collect(Collectors.toList());
     }

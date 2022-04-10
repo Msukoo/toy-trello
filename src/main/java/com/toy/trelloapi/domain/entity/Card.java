@@ -1,6 +1,7 @@
 package com.toy.trelloapi.domain.entity;
 
 import com.sun.istack.NotNull;
+import com.toy.trelloapi.domain.dto.CardDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,6 +26,9 @@ public class Card {
 
     @Column(nullable = false)
     private Long cardOrd;
+
+    @Column
+    private String cardDesc;
 
     @Column(columnDefinition = "boolean default true")
     private boolean useYn;
@@ -60,5 +64,19 @@ public class Card {
         this.regDtime = regDtime;
         this.modId = modId;
         this.modDtime = modDtime;
+    }
+
+    public CardDto convertCardDto(){
+        return CardDto.builder()
+                .cardId(this.cardId)
+                .workListId(this.workList.getWorkListId())
+                .cardTitle(this.cardTitle)
+                .cardDesc(this.cardDesc)
+                .cardOrd(this.cardOrd)
+                .regId(this.regId)
+                .regDTime(this.regDtime)
+                .modId(this.modId)
+                .modDTime(this.modDtime)
+                .build();
     }
 }
