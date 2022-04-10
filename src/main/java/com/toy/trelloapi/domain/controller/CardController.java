@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins="*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/card")
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ public class CardController {
 
     @PostMapping("")
     public ResponseEntity saveCardList(@RequestBody CardDto cardDto){
-        Card card = cardService.saveCard(cardDto.getWorkListId(), cardDto.getCardTitle());
+        Card card = cardService.saveCard(cardDto.getWorkListId(), cardDto);
         return ResponseEntity.ok().body(card.getCardId());
     }
 
@@ -26,4 +27,8 @@ public class CardController {
         CardDto cardDto = cardService.getCardById(cardId);
         return ResponseEntity.ok().body(cardDto);
     }
+
+    // TO DO : card update
+    // TO DO : card order update
+
 }
