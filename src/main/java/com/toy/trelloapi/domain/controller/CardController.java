@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+
 @CrossOrigin(origins="*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/card")
@@ -17,7 +19,7 @@ public class CardController {
     private final CardService cardService;
 
     @PostMapping("")
-    public ResponseEntity saveCardList(@RequestBody CardDto cardDto){
+    public ResponseEntity saveCardList(@RequestBody CardDto cardDto) throws UnsupportedEncodingException {
         cardDto = cardService.saveCard(cardDto.getWorkListId(), cardDto);
         return ResponseEntity.ok().body(cardDto);
     }

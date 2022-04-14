@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +28,7 @@ public class ListService {
     private final WorkListQueryRepository workListQueryRepository;
     private final ModelMapper modelMapper;
 
-    public WorkListDto saveWorkList(String workListTitle) {
+    public WorkListDto saveWorkList(String workListTitle) throws UnsupportedEncodingException {
 
         LocalDateTime currentDateTime = LocalDateTime.now();
 
@@ -44,7 +46,7 @@ public class ListService {
     }
 
     @Transactional
-    public void updateWorkList(WorkListDto workListDto) {
+    public void updateWorkList(WorkListDto workListDto) throws UnsupportedEncodingException {
         LocalDateTime currentDateTime = LocalDateTime.now();
         Optional<WorkList> optWorkList = workListRepository.findByWorkListId(workListDto.getWorkListId());
         WorkList workList = optWorkList.orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));

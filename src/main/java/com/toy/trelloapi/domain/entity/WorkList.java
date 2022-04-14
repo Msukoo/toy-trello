@@ -6,6 +6,8 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,8 +55,8 @@ public class WorkList {
                     LocalDateTime regDtime,
                     String modId,
                     LocalDateTime modDtime
-    ){
-        this.workListTitle = workListTitle;
+    ) throws UnsupportedEncodingException {
+        this.workListTitle = URLDecoder.decode(workListTitle,"UTF-8");
         this.workListOrd = workListOrd;
         this.useYn = useYn;
         this.regId = regId;
@@ -63,8 +65,8 @@ public class WorkList {
         this.modDtime = modDtime;
     }
 
-    public void changeWorkList(String workListTitle, String modId, LocalDateTime modDtime) {
-        this.workListTitle = workListTitle;
+    public void changeWorkList(String workListTitle, String modId, LocalDateTime modDtime) throws UnsupportedEncodingException {
+        this.workListTitle = URLDecoder.decode(workListTitle,"UTF-8");;
         this.modId = modId;
         this.modDtime = modDtime;
     }

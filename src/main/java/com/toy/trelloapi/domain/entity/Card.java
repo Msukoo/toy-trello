@@ -5,6 +5,8 @@ import com.toy.trelloapi.domain.dto.CardDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -55,9 +57,9 @@ public class Card {
                 LocalDateTime regDtime,
                 String modId,
                 LocalDateTime modDtime
-    ){
+    ) throws UnsupportedEncodingException {
         this.workList = workList;
-        this.cardTitle = cardTitle;
+        this.cardTitle = URLDecoder.decode(cardTitle,"UTF-8");;
         this.cardOrd = cardOrd;
         this.useYn = useYn;
         this.regId = regId;

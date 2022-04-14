@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @CrossOrigin(origins="*", allowedHeaders = "*")
@@ -26,16 +27,16 @@ public class WorkListController {
 
     @ApiOperation(value = "")
     @PostMapping("")
-    public ResponseEntity saveWorkList(@RequestBody String workListTitle){
+    public ResponseEntity saveWorkList(@RequestBody String workListTitle) throws UnsupportedEncodingException {
         WorkListDto workListDto = listService.saveWorkList(workListTitle);
         return ResponseEntity.ok().body(workListDto);
     }
 
     @ApiOperation(value = "")
     @PutMapping("/{workListId}")
-    public ResponseEntity updateWorkList(@PathVariable Long workListId, @RequestBody WorkListDto workListDto){
+    public ResponseEntity updateWorkList(@PathVariable Long workListId, @RequestBody WorkListDto workListDto) throws UnsupportedEncodingException {
         workListDto.setWorkListId(workListId);
-        listService.updateWorkList(workListDto); // 쿼리가 두번씩 날려짐...
+        listService.updateWorkList(workListDto);
         return ResponseEntity.ok().body(workListId);
     }
 }

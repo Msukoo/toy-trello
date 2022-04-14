@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class CardService {
     private final CardQueryRepository cardQueryRepository;
     private final ModelMapper modelMapper;
 
-    public CardDto saveCard(Long workListId, CardDto cardDto){
+    public CardDto saveCard(Long workListId, CardDto cardDto) throws UnsupportedEncodingException {
 
         LocalDateTime currentDateTime = LocalDateTime.now();
 
