@@ -25,14 +25,14 @@ public class WorkListController {
         return ResponseEntity.ok().body(workLists);
     }
 
-    @ApiOperation(value = "")
+    @ApiOperation(value = "WorkList 추가")
     @PostMapping("")
     public ResponseEntity saveWorkList(@RequestBody String workListTitle) throws UnsupportedEncodingException {
         WorkListDto workListDto = listService.saveWorkList(workListTitle);
         return ResponseEntity.ok().body(workListDto);
     }
 
-    @ApiOperation(value = "")
+    @ApiOperation(value = "WorkList 수정")
     @PutMapping("/{workListId}")
     public ResponseEntity updateWorkList(@PathVariable Long workListId, @RequestBody WorkListDto workListDto) throws UnsupportedEncodingException {
         workListDto.setWorkListId(workListId);

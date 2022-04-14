@@ -4,6 +4,7 @@ import com.toy.trelloapi.domain.dto.CardDto;
 import com.toy.trelloapi.domain.entity.Card;
 import com.toy.trelloapi.domain.entity.WorkList;
 import com.toy.trelloapi.domain.service.CardService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,14 @@ public class CardController {
 
     private final CardService cardService;
 
+    @ApiOperation(value = "Card 저장")
     @PostMapping("")
     public ResponseEntity saveCardList(@RequestBody CardDto cardDto) throws UnsupportedEncodingException {
         cardDto = cardService.saveCard(cardDto.getWorkListId(), cardDto);
         return ResponseEntity.ok().body(cardDto);
     }
 
+    @ApiOperation(value = "CardId 값으로 Card return")
     @GetMapping("{cardId}")
     public ResponseEntity getCard(@PathVariable Long cardId){
         CardDto cardDto = cardService.getCardById(cardId);
