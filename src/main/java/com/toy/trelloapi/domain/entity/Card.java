@@ -76,9 +76,9 @@ public class Card {
                 .cardDesc(this.cardDesc)
                 .cardOrd(this.cardOrd)
                 .regId(this.regId)
-                .regDTime(this.regDtime)
+                .regDtime(this.regDtime)
                 .modId(this.modId)
-                .modDTime(this.modDtime)
+                .modDtime(this.modDtime)
                 .build();
     }
 }

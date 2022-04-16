@@ -18,8 +18,8 @@ public class CardDto {
     private String cardDesc;
     private Long cardOrd;
     private String regId;
-    private LocalDateTime regDTime;
+    private LocalDateTime regDtime;
     private String modId;
-    private LocalDateTime modDTime;
+    private LocalDateTime modDtime;
 
 }
