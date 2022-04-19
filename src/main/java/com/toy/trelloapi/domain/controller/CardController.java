@@ -1,8 +1,6 @@
 package com.toy.trelloapi.domain.controller;
 
 import com.toy.trelloapi.domain.dto.CardDto;
-import com.toy.trelloapi.domain.entity.Card;
-import com.toy.trelloapi.domain.entity.WorkList;
 import com.toy.trelloapi.domain.service.CardService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,7 @@ public class CardController {
     @ApiOperation(value = "Card 저장")
     @PostMapping("")
     public ResponseEntity saveCardList(@RequestBody CardDto cardDto) throws UnsupportedEncodingException {
-        cardDto = cardService.saveCard(cardDto.getWorkListId(), cardDto);
+        cardDto = cardService.saveCard(cardDto);
         return ResponseEntity.ok().body(cardDto);
     }
 

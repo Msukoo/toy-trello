@@ -9,8 +9,6 @@ import com.toy.trelloapi.domain.repository.CardQueryRepository;
 import com.toy.trelloapi.domain.repository.CardRepository;
 import com.toy.trelloapi.domain.repository.WorkListRepository;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -23,23 +21,18 @@ public class CardService {
     private final WorkListRepository workListRepository;
     private final CardRepository cardRepository;
     private final CardQueryRepository cardQueryRepository;
-    private final ModelMapper modelMapper;
 
-    public CardDto saveCard(Long workListId, CardDto cardDto) throws UnsupportedEncodingException {
+    public CardDto saveCard(CardDto cardDto) throws UnsupportedEncodingException {
+        Optional<WorkList> optWorkList = workListRepository.findById(cardDto.getWorkListId());
+        WorkList workList = optWorkList.orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
 
         LocalDateTime currentDateTime = LocalDateTime.now();
-
-        Optional<WorkList> workList = workListRepository.findById(workListId);
-
         Long nextCardOrd = getNextCardOrd();
-
-        if(workList.get() == null){
-            throw new WorkListNotFoundException("리스트를 찾을 수 없습니다.");
-        }
         return cardRepository.save(
                 Card.builder()
-                        .workList(workList.get()) //
+                        .workList(workList)
                         .cardTitle(cardDto.getCardTitle())
+                        .cardDesc(cardDto.getCardDesc())
                         .cardOrd(nextCardOrd)
                         .regId("admin")
                         .regDtime(currentDateTime)
