@@ -18,19 +18,19 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     // 공통 예외처리 (status=500)
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<Object> handleAllException(Exception ex, WebRequest request){
+    public final ResponseEntity handleAllException(Exception ex, WebRequest request){
         ExceptionResponse exceptionResponse = getExceptionResponse(ex, request);
         return new ResponseEntity(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(WorkListNotFoundException.class)
-    public final ResponseEntity<Object> handleWorkListNotFoundException(Exception ex, WebRequest request){
+    public final ResponseEntity handleWorkListNotFoundException(Exception ex, WebRequest request){
         ExceptionResponse exceptionResponse = getExceptionResponse(ex, request);
         return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CardNotFoundException.class)
-    public final ResponseEntity<Object> handleCardNotFoundException(Exception ex, WebRequest request){
+    public final ResponseEntity handleCardNotFoundException(Exception ex, WebRequest request){
         ExceptionResponse exceptionResponse = getExceptionResponse(ex, request);
         return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
     }
