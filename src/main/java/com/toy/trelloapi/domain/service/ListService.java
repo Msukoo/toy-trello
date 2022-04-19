@@ -9,12 +9,10 @@ import com.toy.trelloapi.domain.repository.WorkListQueryRepository;
 import com.toy.trelloapi.domain.repository.WorkListRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -46,11 +44,12 @@ public class ListService {
     }
 
     @Transactional
-    public void updateWorkList(WorkListDto workListDto) throws UnsupportedEncodingException {
+    public WorkListDto updateWorkList(WorkListDto workListDto) throws UnsupportedEncodingException {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        Optional<WorkList> optWorkList = workListRepository.findByWorkListId(workListDto.getWorkListId());
+        Optional<WorkList> optWorkList = workListRepository.findById(workListDto.getWorkListId());
         WorkList workList = optWorkList.orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
         workList.changeWorkList(workListDto.getWorkListTitle(), "admin", currentDateTime);
+        return workList.convertWorkListDto();
     }
 
     private Long getNextWorkListOrd(){

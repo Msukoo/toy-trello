@@ -1,7 +1,6 @@
 package com.toy.trelloapi.domain.controller;
 
 import com.toy.trelloapi.domain.dto.WorkListDto;
-import com.toy.trelloapi.domain.entity.WorkList;
 import com.toy.trelloapi.domain.service.ListService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +35,7 @@ public class WorkListController {
     @PutMapping("/{workListId}")
     public ResponseEntity updateWorkList(@PathVariable Long workListId, @RequestBody WorkListDto workListDto) throws UnsupportedEncodingException {
         workListDto.setWorkListId(workListId);
-        listService.updateWorkList(workListDto);
-        return ResponseEntity.ok().body(workListId);
+        WorkListDto changeWorkList = listService.updateWorkList(workListDto);
+        return ResponseEntity.ok().body(changeWorkList);
     }
 }
