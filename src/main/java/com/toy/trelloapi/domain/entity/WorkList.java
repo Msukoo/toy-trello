@@ -1,6 +1,5 @@
 package com.toy.trelloapi.domain.entity;
 
-import com.sun.istack.NotNull;
 import com.toy.trelloapi.domain.dto.WorkListDto;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -80,7 +79,6 @@ public class WorkList {
                 .regDtime(this.regDtime)
                 .modId(this.modId)
                 .modDtime(this.modDtime)
-                .useYn(this.useYn)
                 .build();
     }
 

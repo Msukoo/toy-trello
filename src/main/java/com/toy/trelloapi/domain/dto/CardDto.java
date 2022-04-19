@@ -4,14 +4,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.tomcat.jni.Local;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
 public class CardDto {
+
     private Long workListId;
     private Long cardId;
     private String cardTitle;
@@ -21,5 +21,30 @@ public class CardDto {
     private LocalDateTime regDtime;
     private String modId;
     private LocalDateTime modDtime;
+
+    @Builder
+    public CardDto(
+            Long workListId,
+            Long cardId,
+            String cardTitle,
+            String cardDesc,
+            Long cardOrd,
+            String regId,
+            LocalDateTime regDtime,
+            String modId,
+            LocalDateTime modDtime
+
+    ) {
+        this.workListId = workListId;
+        this.cardId = cardId;
+        this.cardTitle = cardTitle;
+        this.cardDesc = cardDesc;
+        this.cardOrd = cardOrd;
+        this.regId = regId;
+        this.regDtime = regDtime;
+        this.modId = modId;
+        this.modDtime = modDtime;
+
+    }
 
 }
