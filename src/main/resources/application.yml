@@ -1,4 +1,14 @@
 server:
+  ssl:
+    enabled: true
+    key-store: classpath:.keystore
+    enabled-protocols:
+      - TLSv1.1
+      - TLSv1.2
+    key-store-password: '!q1w2e3r4t5'
+    key-store-type: PKCS12
+    # key-password: ''
+    # key-alias: bns-ssl
   port: 8088
 
 spring:
