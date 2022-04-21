@@ -1,4 +1,4 @@
-package com.toy.trelloapi.domain.dto;
+package com.toy.trelloapi.domain.dto.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @ApiModel(description = "카드 DTO")
-public class CardDto {
+public class CardRequestDto {
 
     @ApiModelProperty(notes = "작업아이디", example = "1", required = true)
     @NotBlank(message = "작업아이디는 필수값 입니다.")
@@ -30,41 +30,26 @@ public class CardDto {
     @Size(min = 1, max = 100)
     private String cardTitle;
 
-    @ApiModelProperty(notes = "카드설명", example = "카드 설명 입니다.", required = true)
+    @ApiModelProperty(notes = "카드설명", example = "카드 설명/내용 입니다.", required = true)
     @Size(min = 1, max = 2000)
     private String cardDesc;
 
     @ApiModelProperty(notes = "카드순번", example = "1000")
     private Long cardOrd;
 
-    private String regId;
-    private LocalDateTime regDtime;
-    private String modId;
-    private LocalDateTime modDtime;
-
     @Builder
-    public CardDto(
+    public CardRequestDto(
             Long workListId,
             Long cardId,
             String cardTitle,
             String cardDesc,
-            Long cardOrd,
-            String regId,
-            LocalDateTime regDtime,
-            String modId,
-            LocalDateTime modDtime
-
-    ) {
+            Long cardOrd
+						 ) {
         this.workListId = workListId;
         this.cardId = cardId;
         this.cardTitle = cardTitle;
         this.cardDesc = cardDesc;
         this.cardOrd = cardOrd;
-        this.regId = regId;
-        this.regDtime = regDtime;
-        this.modId = modId;
-        this.modDtime = modDtime;
-
     }
 
 }

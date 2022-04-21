@@ -1,6 +1,7 @@
 package com.toy.trelloapi.domain.entity;
 
 import com.toy.trelloapi.domain.dto.CardDto;
+import com.toy.trelloapi.domain.dto.response.CardResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -82,5 +83,19 @@ public class Card {
                 .modId(this.modId)
                 .modDtime(this.modDtime)
                 .build();
+    }
+
+    public CardResponseDto convertCardResponseDto(){
+        return CardResponseDto.builder()
+                      .cardId(this.cardId)
+                      .workListId(this.workList.getWorkListId())
+                      .cardTitle(this.cardTitle)
+                      .cardDesc(this.cardDesc)
+                      .cardOrd(this.cardOrd)
+                      .regId(this.regId)
+                      .regDtime(this.regDtime)
+                      .modId(this.modId)
+                      .modDtime(this.modDtime)
+                      .build();
     }
 }

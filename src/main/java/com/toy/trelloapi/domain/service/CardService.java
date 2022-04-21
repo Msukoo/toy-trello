@@ -1,6 +1,8 @@
 package com.toy.trelloapi.domain.service;
 
 import com.toy.trelloapi.domain.dto.CardDto;
+import com.toy.trelloapi.domain.dto.request.CardRequestDto;
+import com.toy.trelloapi.domain.dto.response.CardResponseDto;
 import com.toy.trelloapi.domain.entity.Card;
 import com.toy.trelloapi.domain.entity.WorkList;
 import com.toy.trelloapi.domain.exception.CardNotFoundException;
@@ -29,18 +31,39 @@ public class CardService {
         LocalDateTime currentDateTime = LocalDateTime.now();
         Long nextCardOrd = getNextCardOrd();
         return cardRepository.save(
-                Card.builder()
-                        .workList(workList)
-                        .cardTitle(cardDto.getCardTitle())
-                        .cardDesc(cardDto.getCardDesc())
-                        .cardOrd(nextCardOrd)
-                        .regId("admin")
-                        .regDtime(currentDateTime)
-                        .useYn(true)
-                        .modId("admin")
-                        .modDtime(currentDateTime)
-                        .build()
-        ).convertCardDto();
+            Card.builder()
+                .workList(workList)
+                .cardTitle(cardDto.getCardTitle())
+                .cardDesc(cardDto.getCardDesc())
+                .cardOrd(nextCardOrd)
+                .regId("admin")
+                .regDtime(currentDateTime)
+                .useYn(true)
+                .modId("admin")
+                .modDtime(currentDateTime)
+                .build()
+                                  ).convertCardDto();
+    }
+
+    public CardResponseDto saveCard(CardRequestDto requestDto) throws UnsupportedEncodingException {
+        Optional<WorkList> optWorkList = workListRepository.findById(requestDto.getWorkListId());
+        WorkList workList = optWorkList.orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        Long nextCardOrd = getNextCardOrd();
+        return cardRepository.save(
+            Card.builder()
+                .workList(workList)
+                .cardTitle(requestDto.getCardTitle())
+                .cardDesc(requestDto.getCardDesc())
+                .cardOrd(nextCardOrd)
+                .regId("admin")
+                .regDtime(currentDateTime)
+                .useYn(true)
+                .modId("admin")
+                .modDtime(currentDateTime)
+                .build()
+                                  ).convertCardResponseDto();
     }
 
     public CardDto getCardById(Long cardId){

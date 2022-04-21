@@ -22,9 +22,12 @@ server:
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:13306/trello?characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: 1111
+    #url: jdbc:mariadb://localhost:13306/trello?characterEncoding=UTF-8&serverTimezone=UTC
+    #username: root
+    #password: 1111
+    url: jdbc:mariadb://3.137.8.42:3306/reactStudy?characterEncoding=UTF-8&serverTimezone=UTC
+    username: goddaehee
+    password: Goddamn87!@
   jpa:
     hibernate:
       ddl-auto: none
