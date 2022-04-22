@@ -39,8 +39,7 @@ public class CardController {
     @PostMapping(value="/v1/card", produces = "application/json; charset=utf8")
     public ResponseEntity<Response<CardResponseDto>> saveCardList(@RequestBody CardRequestDto requestDto) throws UnsupportedEncodingException {
 
-        CardResponseDto responseDto = new CardResponseDto();
-        responseDto = cardService.saveCard(requestDto);
+        CardResponseDto responseDto = cardService.saveCard(requestDto);
         /*return ResponseEntity.ok().body(responseDto);*/
         return ResponseEntity.ok().body(ResponseUtil.makeResponse(responseDto));
     }
