@@ -24,6 +24,15 @@ public class CardController {
         return ResponseEntity.ok().body(cardDto);
     }
 
+    @ApiOperation(value = "Card 수정")
+    @PutMapping("/{cardId}")
+    public ResponseEntity updateCard(@PathVariable Long cardId, @RequestBody CardDto cardDto) throws UnsupportedEncodingException {
+        cardDto.setCardId(cardId);
+        cardDto = cardService.updateCard(cardDto);
+        return ResponseEntity.ok().body(cardDto);
+    }
+
+
     @ApiOperation(value = "CardId 값으로 Card return")
     @GetMapping("{cardId}")
     public ResponseEntity getCard(@PathVariable Long cardId){

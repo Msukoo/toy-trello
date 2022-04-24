@@ -4,6 +4,7 @@ import com.toy.trelloapi.domain.dto.CardDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@DynamicUpdate
 @NoArgsConstructor
 @Table(name = "card")
 public class Card {
@@ -82,5 +84,12 @@ public class Card {
                 .modId(this.modId)
                 .modDtime(this.modDtime)
                 .build();
+    }
+
+    public void changeCard(CardDto cardDto, String modId) throws UnsupportedEncodingException {
+        this.cardTitle = URLDecoder.decode(cardDto.getCardTitle(),"UTF-8");
+        this.cardDesc = cardDto.getCardDesc();
+        this.modId = modId;
+        this.modDtime = LocalDateTime.now();
     }
 }
