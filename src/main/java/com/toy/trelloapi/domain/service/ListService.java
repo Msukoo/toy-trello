@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,10 +44,9 @@ public class ListService {
 
     @Transactional
     public WorkListDto updateWorkList(WorkListDto workListDto) throws UnsupportedEncodingException {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        Optional<WorkList> optWorkList = workListRepository.findById(workListDto.getWorkListId());
-        WorkList workList = optWorkList.orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
-        workList.changeWorkList(workListDto.getWorkListTitle(), "admin", currentDateTime);
+        WorkList workList = workListRepository.findById(workListDto.getWorkListId())
+                                            .orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
+        workList.changeWorkList(workListDto, "admin");
         return workList.convertWorkListDto();
     }
 

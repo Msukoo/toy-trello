@@ -64,10 +64,10 @@ public class WorkList {
         this.modDtime = modDtime;
     }
 
-    public void changeWorkList(String workListTitle, String modId, LocalDateTime modDtime) throws UnsupportedEncodingException {
-        this.workListTitle = URLDecoder.decode(workListTitle,"UTF-8");;
+    public void changeWorkList(WorkListDto workListDto, String modId) throws UnsupportedEncodingException {
+        this.workListTitle = URLDecoder.decode(workListDto.getWorkListTitle(),"UTF-8");;
         this.modId = modId;
-        this.modDtime = modDtime;
+        this.modDtime = LocalDateTime.now();
     }
 
     public WorkListDto convertWorkListDto(){
