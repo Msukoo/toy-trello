@@ -1,0 +1,7 @@
+# common_ko messages
+messages:
+  common:
+    ko:
+      default: "기본 메세지."
+    en:
+      default: "default message."

@@ -1,10 +1,11 @@
-swagger:
-  title: trello API
-  description: trello API Docs
-  version: 1.0
-  # terms-of-sevice-url: http://
-  exclude-path-patterns: /swagger-resources/**, /swagger-ui.html, /webjars/**
-  protocols: https
+messages:
+  base-directory: /messages
+error:
+  message:
+    base-directory: /error
+response:
+  message:
+    base-directory: /response
 
 server:
   ssl:
