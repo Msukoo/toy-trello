@@ -1,6 +1,7 @@
 package com.toy.trelloapi.domain.entity;
 
 import com.toy.trelloapi.domain.dto.CardDto;
+import com.toy.trelloapi.domain.dto.request.CardRequestDto;
 import com.toy.trelloapi.domain.dto.response.CardResponseDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,7 +30,7 @@ public class Card {
     @Column(length = 100, nullable = false)
     private String cardTitle;
 
-    @Column(nullable = false)
+    @Column
     private Long cardOrd;
 
     @Column
@@ -38,7 +39,7 @@ public class Card {
     @Column(columnDefinition = "boolean default true")
     private boolean useYn;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     private String regId;
 
     @Column
@@ -73,6 +74,25 @@ public class Card {
         this.modDtime = modDtime;
     }
 
+    @Builder
+    public Card(
+        //WorkList workList,
+        String cardTitle,
+        String cardDesc,
+        //Long cardOrd,
+        //boolean useYn,
+        String modId,
+        LocalDateTime modDtime
+               ) throws UnsupportedEncodingException {
+        //this.workList = workList;
+        this.cardTitle = URLDecoder.decode(cardTitle,"UTF-8");
+        this.cardDesc = cardDesc;
+        //this.cardOrd = cardOrd;
+        //this.useYn = useYn;
+        this.modId = modId;
+        this.modDtime = modDtime;
+    }
+
     public CardDto convertCardDto(){
         return CardDto.builder()
                 .cardId(this.cardId)
@@ -99,5 +119,19 @@ public class Card {
                       .modId(this.modId)
                       .modDtime(this.modDtime)
                       .build();
+    }
+
+    public void changeCard(CardDto cardDto, String modId) throws UnsupportedEncodingException {
+        this.cardTitle = URLDecoder.decode(cardDto.getCardTitle(),"UTF-8");
+        this.cardDesc = cardDto.getCardDesc();
+        this.modId = modId;
+        this.modDtime = LocalDateTime.now();
+    }
+
+    public void cardModify(CardRequestDto.CardModify cardDto, String modId) throws UnsupportedEncodingException {
+        this.cardTitle = URLDecoder.decode(cardDto.getCardTitle(),"UTF-8");
+        this.cardDesc = cardDto.getCardDesc();
+        this.modId = modId;
+        this.modDtime = LocalDateTime.now();
     }
 }

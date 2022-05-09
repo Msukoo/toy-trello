@@ -2,10 +2,13 @@ package com.toy.trelloapi.domain.controller;
 
 import com.toy.trelloapi.domain.dto.CardDto;
 import com.toy.trelloapi.domain.dto.request.CardRequestDto;
+import com.toy.trelloapi.domain.dto.response.CardEmptyResponseDto;
 import com.toy.trelloapi.domain.dto.response.CardResponseDto;
 import com.toy.trelloapi.domain.service.CardService;
+import com.toy.trelloapi.exception.ApiException;
 import com.toy.trelloapi.message.Response;
 import com.toy.trelloapi.message.Response2;
+import com.toy.trelloapi.utils.Response2Util;
 import com.toy.trelloapi.utils.ResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -37,16 +40,44 @@ public class CardController {
                                              + "카드 생성"
     )
     @PostMapping(value="/v1/card", produces = "application/json; charset=utf8")
-    public ResponseEntity<Response<CardResponseDto>> saveCardList(@RequestBody CardRequestDto requestDto) throws UnsupportedEncodingException {
+    public ResponseEntity<Response<CardResponseDto>> cardListCreate(@RequestBody CardRequestDto.CardCreate requestDto) throws UnsupportedEncodingException {
 
         CardResponseDto responseDto = cardService.saveCard(requestDto);
         /*return ResponseEntity.ok().body(responseDto);*/
         return ResponseEntity.ok().body(ResponseUtil.makeResponse(responseDto));
     }
 
+    @ApiOperation(value = "Card 수정")
+    @PutMapping("/{cardId}")
+    public ResponseEntity updateCard(@PathVariable Long cardId, @RequestBody CardDto cardDto) throws UnsupportedEncodingException {
+        cardDto.setCardId(cardId);
+        cardDto = cardService.updateCard(cardDto);
+
+        return ResponseEntity.ok().body(cardDto);
+    }
+
+    @ApiOperation(value = "Card 수정")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "cardId", value = "카드 ID", required = true, dataType = "Long", paramType = "path", example = "1")
+    })
+    @PutMapping("/v1/{cardId}")
+    public ResponseEntity<Response2<CardEmptyResponseDto, ?>> cardMofidy(@PathVariable Long cardId, @RequestBody CardRequestDto.CardModify requestDto) throws Exception {
+        CardEmptyResponseDto responseDto = new CardEmptyResponseDto();
+        try {
+            requestDto.setCardId(cardId);
+            cardService.cardModify(requestDto);
+        } catch (ApiException apiException){
+            throw new ApiException(apiException.getStatus(), apiException.getErrorCode(), "", apiException.getGuideMessage());
+        } catch (Exception exception){
+            throw new Exception();
+        }
+        return ResponseEntity.ok().body(Response2Util.makeResponse(responseDto.getResponseCode(), responseDto));
+    }
+
     @ApiOperation(value = "CardId 값으로 Card return")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "cardId", value = "카드 ID", required = true, dataType = "Long", paramType = "query", example = "1") })
+        @ApiImplicitParam(name = "cardId", value = "카드 ID", required = true, dataType = "Long", paramType = "path", example = "1")
+    })
     @GetMapping("{cardId}")
     public ResponseEntity getCard(@PathVariable Long cardId){
         CardDto cardDto = cardService.getCardById(cardId);

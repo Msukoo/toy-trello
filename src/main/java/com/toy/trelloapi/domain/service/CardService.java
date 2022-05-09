@@ -45,7 +45,7 @@ public class CardService {
                                   ).convertCardDto();
     }
 
-    public CardResponseDto saveCard(CardRequestDto requestDto) throws UnsupportedEncodingException {
+    public CardResponseDto saveCard(CardRequestDto.CardCreate requestDto) throws UnsupportedEncodingException {
         Optional<WorkList> optWorkList = workListRepository.findById(requestDto.getWorkListId());
         WorkList workList = optWorkList.orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
 
@@ -79,5 +79,21 @@ public class CardService {
                 .orElseThrow(() -> new CardNotFoundException("해당 카드를 찾을 수 없습니다."));
         card.changeCard(cardDto, "admin");
         return card.convertCardDto();
+    }
+
+    public void cardModify(CardRequestDto.CardModify requestDto) throws UnsupportedEncodingException {
+        Card card = cardRepository.findById(requestDto.getCardId())
+                                  .orElseThrow(() -> new CardNotFoundException("해당 카드를 찾을 수 없습니다."));
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        card.cardModify(requestDto, "admin");
+        cardRepository.save(
+            Card.builder()
+                .cardTitle(requestDto.getCardTitle())
+                .cardDesc(requestDto.getCardDesc())
+                .modId("admin")
+                .modDtime(currentDateTime)
+                .build()
+                           ).convertCardResponseDto();
+
     }
 }
