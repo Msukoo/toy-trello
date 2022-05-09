@@ -5,6 +5,7 @@ import com.toy.trelloapi.domain.dto.response.CardResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@DynamicUpdate
 @NoArgsConstructor
 @Table(name = "card")
 public class Card {

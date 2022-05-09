@@ -67,9 +67,17 @@ public class CardService {
     }
 
     public CardDto getCardById(Long cardId){
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("해당 카드를 찾을 수 없습니다."));
+        Card card = cardRepository.findById(cardId)
+                                .orElseThrow(() -> new CardNotFoundException("해당 카드를 찾을 수 없습니다."));
         return card.convertCardDto();
     }
 
     private Long getNextCardOrd() { return cardQueryRepository.findLastCardOrd() + 1000L; }
+
+    public CardDto updateCard(CardDto cardDto) throws UnsupportedEncodingException {
+        Card card = cardRepository.findById(cardDto.getCardId())
+                .orElseThrow(() -> new CardNotFoundException("해당 카드를 찾을 수 없습니다."));
+        card.changeCard(cardDto, "admin");
+        return card.convertCardDto();
+    }
 }
