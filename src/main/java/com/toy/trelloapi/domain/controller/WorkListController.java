@@ -1,15 +1,16 @@
 package com.toy.trelloapi.domain.controller;
 
 import com.toy.trelloapi.domain.dto.WorkListDto;
-import com.toy.trelloapi.domain.entity.WorkList;
 import com.toy.trelloapi.domain.service.ListService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+@CrossOrigin(origins="*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/list")
 @RequiredArgsConstructor
@@ -23,18 +24,18 @@ public class WorkListController {
         return ResponseEntity.ok().body(workLists);
     }
 
-    @ApiOperation(value = "")
+    @ApiOperation(value = "WorkList 추가")
     @PostMapping("")
-    public ResponseEntity saveWorkList(@RequestBody String workListTitle){
-        WorkList workList = listService.saveWorkList(workListTitle);
-        return ResponseEntity.ok().body(workList.getWorkListId());
+    public ResponseEntity saveWorkList(@RequestBody String workListTitle) throws UnsupportedEncodingException {
+        WorkListDto workListDto = listService.saveWorkList(workListTitle);
+        return ResponseEntity.ok().body(workListDto);
     }
 
-    @ApiOperation(value = "")
+    @ApiOperation(value = "WorkList 수정")
     @PutMapping("/{workListId}")
-    public ResponseEntity updateWorkList(@PathVariable Long workListId, @RequestBody WorkListDto workListDto){
+    public ResponseEntity updateWorkList(@PathVariable Long workListId, @RequestBody WorkListDto workListDto) throws UnsupportedEncodingException {
         workListDto.setWorkListId(workListId);
-        listService.updateWorkList(workListDto); // 쿼리가 두번씩 날려짐...
-        return ResponseEntity.ok().body(workListId);
+        WorkListDto changeWorkList = listService.updateWorkList(workListDto);
+        return ResponseEntity.ok().body(changeWorkList);
     }
 }

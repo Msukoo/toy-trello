@@ -1,25 +1,70 @@
 package com.toy.trelloapi.domain.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.tomcat.jni.Local;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
+@ApiModel(description = "카드 DTO")
 public class CardDto {
+
+    @ApiModelProperty(notes = "작업아이디", example = "1", required = true)
+    @NotBlank(message = "작업아이디는 필수값 입니다.")
     private Long workListId;
+
+    @ApiModelProperty(notes = "카드아이디", example = "1", required = true)
+    @NotBlank(message = "카드아이디는 필수값 입니다.")
     private Long cardId;
+
+    @ApiModelProperty(notes = "카드제목", example = "카드 제목 입니다.", required = true)
+    @NotBlank(message = "카드제목은 필수값 입니다.")
+    @Size(min = 1, max = 100)
     private String cardTitle;
+
+    @ApiModelProperty(notes = "카드설명", example = "카드 설명 입니다.", required = true)
+    @Size(min = 1, max = 2000)
     private String cardDesc;
+
+    @ApiModelProperty(notes = "카드순번", example = "1000")
     private Long cardOrd;
+
     private String regId;
-    private LocalDateTime regDTime;
+    private LocalDateTime regDtime;
     private String modId;
-    private LocalDateTime modDTime;
+    private LocalDateTime modDtime;
+
+    @Builder
+    public CardDto(
+            Long workListId,
+            Long cardId,
+            String cardTitle,
+            String cardDesc,
+            Long cardOrd,
+            String regId,
+            LocalDateTime regDtime,
+            String modId,
+            LocalDateTime modDtime
+
+    ) {
+        this.workListId = workListId;
+        this.cardId = cardId;
+        this.cardTitle = cardTitle;
+        this.cardDesc = cardDesc;
+        this.cardOrd = cardOrd;
+        this.regId = regId;
+        this.regDtime = regDtime;
+        this.modId = modId;
+        this.modDtime = modDtime;
+
+    }
 
 }

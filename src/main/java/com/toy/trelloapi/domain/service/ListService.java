@@ -9,13 +9,12 @@ import com.toy.trelloapi.domain.repository.WorkListQueryRepository;
 import com.toy.trelloapi.domain.repository.WorkListRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,29 +25,29 @@ public class ListService {
     private final WorkListQueryRepository workListQueryRepository;
     private final ModelMapper modelMapper;
 
-    public WorkList saveWorkList(String workListTitle) {
+    public WorkListDto saveWorkList(String workListTitle) throws UnsupportedEncodingException {
 
         LocalDateTime currentDateTime = LocalDateTime.now();
 
-       return workListRepository.save(
-                WorkList.builder()
-                        .workListTitle(workListTitle)
-                        .workListOrd(getNextWorkListOrd())
-                        .regId("admin")
-                        .regDtime(currentDateTime)
-                        .useYn(true)
-                        .modId("admin")
-                        .modDtime(currentDateTime)
-                        .build()
-        );
+        return workListRepository.save(
+                                    WorkList.builder()
+                                        .workListTitle(workListTitle)
+                                        .workListOrd(getNextWorkListOrd())
+                                        .regId("admin")
+                                        .regDtime(currentDateTime)
+                                        .useYn(true)
+                                        .modId("admin")
+                                        .modDtime(currentDateTime)
+                                        .build()
+        ).convertWorkListDto();
     }
 
     @Transactional
-    public void updateWorkList(WorkListDto workListDto) {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        Optional<WorkList> optWorkList = workListRepository.findByWorkListId(workListDto.getWorkListId());
-        WorkList workList = optWorkList.orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
-        workList.changeWorkList(workListDto.getWorkListTitle(), "admin", currentDateTime);
+    public WorkListDto updateWorkList(WorkListDto workListDto) throws UnsupportedEncodingException {
+        WorkList workList = workListRepository.findById(workListDto.getWorkListId())
+                                            .orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
+        workList.changeWorkList(workListDto, "admin");
+        return workList.convertWorkListDto();
     }
 
     private Long getNextWorkListOrd(){
@@ -63,29 +62,11 @@ public class ListService {
                 .map(x -> {
                     List<Card> cardList = x.getCard();
                     List<CardDto> cardDtoList = cardList.stream()
-                                                        .map(y -> CardDto.builder()
-                                                                    .cardId(y.getCardId())
-                                                                    .workListId(y.getWorkList().getWorkListId())
-                                                                    .cardTitle(y.getCardTitle())
-                                                                    .cardOrd(y.getCardOrd())
-                                                                    .regId(y.getRegId())
-                                                                    .regDTime(y.getRegDtime())
-                                                                    .modId(y.getModId())
-                                                                    .modDTime(y.getModDtime())
-                                                                    .build()
-                                                        )
+                                                        .map(y -> y.convertCardDto())
                                                         .collect(Collectors.toList());
-                    return WorkListDto.builder()
-                                .workListId(x.getWorkListId())
-                                .workListTitle(x.getWorkListTitle())
-                                .workListOrd(x.getWorkListOrd())
-                                .regId(x.getRegId())
-                                .regDtime(x.getRegDtime())
-                                .modId(x.getModId())
-                                .modDtime(x.getModDtime())
-                                .useYn(x.isUseYn())
-                                .cardList(cardDtoList)
-                                .build();
+                    WorkListDto workListDto = x.convertWorkListDto();
+                    workListDto.setCardList(cardDtoList);
+                    return workListDto;
                 })
                 .collect(Collectors.toList());
     }

@@ -1,0 +1,7 @@
+response:
+  en:
+    RES_200: "sucess."
+    RES_404: "data not found."
+  ko:
+    RES_200: "요청 성공."
+    RES_404: "데이터를 찾을 수 없습니다."

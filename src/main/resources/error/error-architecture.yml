@@ -1,0 +1,11 @@
+error:
+  en:
+    PARAMETER_VALIDATION_ERROR: "{0} input values were entered incorrectly."
+    PARAMETER_VALIDATION_ERROR_DETAIL_DEFAULT: " {0} should be {1}"
+    PARAMETER_VALIDATION_ERROR_DETAIL_FIELD: " {0}`s {1} should be {2}"
+    SESSION_TIMEOUT_ERROR: "Your credentials have expired.<br>Please log in again."
+  ko:
+    PARAMETER_VALIDATION_ERROR: "{0}개의 값이 잘못 입력되었습니다."
+    PARAMETER_VALIDATION_ERROR_DETAIL_DEFAULT: " {0} 은 {1}"
+    PARAMETER_VALIDATION_ERROR_DETAIL_FIELD: " {0} 의 {1} 은 {2}"
+    SESSION_TIMEOUT_ERROR: "인증 정보가 만료되었습니다.<br>다시 로그인 하세요."
