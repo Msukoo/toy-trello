@@ -1,0 +1,11 @@
+# 기동환경에 영향을 받지 않는 공용 설정
+swagger:
+  title: trello API
+  description: trello API Docs
+  version: 1.0
+  # terms-of-sevice-url: http://
+  exclude-path-patterns: /swagger-resources/**, /swagger-ui.html, /webjars/**
+  protocols: https
+
+
+# 비즈니스 구현 시 필요한 설정
