@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @CrossOrigin(origins="*", allowedHeaders = "*")
@@ -28,14 +27,14 @@ public class WorkListController {
 
     @ApiOperation(value = "WorkList 추가")
     @PostMapping("")
-    public ResponseEntity saveWorkList(@RequestBody WorkListRequest workListRequest) throws UnsupportedEncodingException {
+    public ResponseEntity saveWorkList(@RequestBody WorkListRequest workListRequest) {
         WorkListResponse workListResponse = listService.saveWorkList(workListRequest);
         return ResponseEntity.ok().body(workListResponse);
     }
 
     @ApiOperation(value = "WorkList 수정")
     @PutMapping("/{workListId}")
-    public ResponseEntity updateWorkList(@PathVariable Long workListId, @RequestBody WorkListRequest workListRequest) throws UnsupportedEncodingException {
+    public ResponseEntity updateWorkList(@PathVariable Long workListId, @RequestBody WorkListRequest workListRequest) {
         workListRequest.setWorkListId(workListId);
         WorkListResponse changeWorkList = listService.updateWorkList(workListRequest);
         return ResponseEntity.ok().body(changeWorkList);
@@ -50,7 +49,7 @@ public class WorkListController {
 
     @ApiOperation(value = "WorkList 복사")
     @PostMapping("/copy/{workListId}")
-    public ResponseEntity copyWorkList(@PathVariable Long workListId, @RequestBody ChangeOrdInfo changeOrdInfo) throws UnsupportedEncodingException {
+    public ResponseEntity copyWorkList(@PathVariable Long workListId, @RequestBody ChangeOrdInfo changeOrdInfo) {
         WorkListResponse workListResponse = listService.copyWorkList(workListId, changeOrdInfo.getRightOrd());
         return ResponseEntity.ok().body(workListResponse);
     }
