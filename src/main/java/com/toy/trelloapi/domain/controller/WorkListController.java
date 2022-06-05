@@ -1,5 +1,6 @@
 package com.toy.trelloapi.domain.controller;
 
+import com.toy.trelloapi.domain.dto.ChangeOrdInfo;
 import com.toy.trelloapi.domain.dto.WorkListDto;
 import com.toy.trelloapi.domain.service.ListService;
 import io.swagger.annotations.ApiOperation;
@@ -38,4 +39,12 @@ public class WorkListController {
         WorkListDto changeWorkList = listService.updateWorkList(workListDto);
         return ResponseEntity.ok().body(changeWorkList);
     }
+
+    @ApiOperation(value = "WorkList 이동")
+    @PutMapping("/move/{workListId}")
+    public ResponseEntity moveWorkList(@PathVariable Long workListId, @RequestBody ChangeOrdInfo changeOrdInfo) {
+        WorkListDto workListDto = listService.moveWorkList(workListId, changeOrdInfo.getRightOrd());
+        return ResponseEntity.ok().body(workListDto);
+    }
+
 }

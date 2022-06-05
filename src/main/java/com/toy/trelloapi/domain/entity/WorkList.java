@@ -82,6 +82,12 @@ public class WorkList {
                 .build();
     }
 
+    public void changeOrd(Long destinationOrd, String modId) {
+        this.workListOrd = destinationOrd;
+        this.modId = modId;
+        this.modDtime = LocalDateTime.now();
+    }
+
 
 //    @PrePersist
 //    public void regDtime() {

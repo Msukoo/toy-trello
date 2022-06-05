@@ -1,12 +1,9 @@
 package com.toy.trelloapi.domain.repository;
 
 
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.toy.trelloapi.domain.entity.QWorkList;
-import com.toy.trelloapi.domain.entity.WorkList;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -27,4 +24,21 @@ public class WorkListQueryRepository implements WorkListForQueryDsl{
         if(workListOrd != null) return workListOrd;
         return 0L;
     }
+
+    //
+    public Long findLeftWorkListOrd(Long listOrd){
+        QWorkList workList = QWorkList.workList;
+
+        Long workListOrd = queryFactory.select(workList.workListOrd)
+                .from(workList)
+                .where(workList.workListOrd.lt(listOrd))
+                .orderBy(workList.workListOrd.desc())
+                .fetchFirst();
+        if(workListOrd == null) {
+            return 0L;
+        }
+        return workListOrd;
+    }
+
+
 }

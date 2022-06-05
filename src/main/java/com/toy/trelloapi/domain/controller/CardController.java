@@ -32,7 +32,6 @@ public class CardController {
         return ResponseEntity.ok().body(cardDto);
     }
 
-
     @ApiOperation(value = "CardId 값으로 Card return")
     @GetMapping("{cardId}")
     public ResponseEntity getCard(@PathVariable Long cardId){
@@ -40,7 +39,6 @@ public class CardController {
         return ResponseEntity.ok().body(cardDto);
     }
 
-    // TO DO : card update
     // TO DO : card order update
 
 }

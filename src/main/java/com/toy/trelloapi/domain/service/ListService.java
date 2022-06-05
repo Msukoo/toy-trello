@@ -8,7 +8,6 @@ import com.toy.trelloapi.domain.exception.WorkListNotFoundException;
 import com.toy.trelloapi.domain.repository.WorkListQueryRepository;
 import com.toy.trelloapi.domain.repository.WorkListRepository;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,6 @@ public class ListService {
 
     private final WorkListRepository workListRepository;
     private final WorkListQueryRepository workListQueryRepository;
-    private final ModelMapper modelMapper;
 
     public WorkListDto saveWorkList(String workListTitle) throws UnsupportedEncodingException {
 
@@ -69,5 +67,21 @@ public class ListService {
                     return workListDto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public WorkListDto moveWorkList(Long workListId, long rightOrd) {
+        Long destinationOrd = findDestinationOrd(rightOrd);
+        WorkList workList = workListRepository.findById(workListId)
+                .orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
+        workList.changeOrd(destinationOrd, "admin");
+        return workList.convertWorkListDto();
+
+    }
+
+    private Long findDestinationOrd(long rightOrd){
+        Long leftOrd = workListQueryRepository.findLeftWorkListOrd(rightOrd);
+        Long destinationOrd = (rightOrd + leftOrd)/2!=0? (rightOrd + leftOrd)/2 : 1L;
+        return destinationOrd;
     }
 }
