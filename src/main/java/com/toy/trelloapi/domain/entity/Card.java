@@ -1,6 +1,7 @@
 package com.toy.trelloapi.domain.entity;
 
-import com.toy.trelloapi.domain.dto.CardDto;
+import com.toy.trelloapi.domain.dto.CardRequest;
+import com.toy.trelloapi.domain.dto.CardResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cardId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name="workListId")
     private WorkList workList;
 
@@ -60,20 +61,24 @@ public class Card {
                 LocalDateTime regDtime,
                 String modId,
                 LocalDateTime modDtime
-    ) throws UnsupportedEncodingException {
-        this.workList = workList;
-        this.cardTitle = URLDecoder.decode(cardTitle,"UTF-8");
+    ) {
+            this.workList = workList;
+        try {
+            this.cardTitle = URLDecoder.decode(cardTitle,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         this.cardDesc = cardDesc;
-        this.cardOrd = cardOrd;
-        this.useYn = useYn;
-        this.regId = regId;
-        this.regDtime = regDtime;
-        this.modId = modId;
-        this.modDtime = modDtime;
+            this.cardOrd = cardOrd;
+            this.useYn = useYn;
+            this.regId = regId;
+            this.regDtime = regDtime;
+            this.modId = modId;
+            this.modDtime = modDtime;
     }
 
-    public CardDto convertCardDto(){
-        return CardDto.builder()
+    public CardResponse convertCardDto(){
+        return CardResponse.builder()
                 .cardId(this.cardId)
                 .workListId(this.workList.getWorkListId())
                 .cardTitle(this.cardTitle)
@@ -86,9 +91,13 @@ public class Card {
                 .build();
     }
 
-    public void changeCard(CardDto cardDto, String modId) throws UnsupportedEncodingException {
-        this.cardTitle = URLDecoder.decode(cardDto.getCardTitle(),"UTF-8");
-        this.cardDesc = cardDto.getCardDesc();
+    public void changeCard(CardRequest cardRequest, String modId) {
+        try {
+            this.cardTitle = URLDecoder.decode(cardRequest.getCardTitle(),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        this.cardDesc = cardRequest.getCardDesc();
         this.modId = modId;
         this.modDtime = LocalDateTime.now();
     }

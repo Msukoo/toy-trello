@@ -1,6 +1,7 @@
 package com.toy.trelloapi.domain.entity;
 
-import com.toy.trelloapi.domain.dto.WorkListDto;
+import com.toy.trelloapi.domain.dto.WorkListRequest;
+import com.toy.trelloapi.domain.dto.WorkListResponse;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -42,7 +43,8 @@ public class WorkList {
     @Column
     private LocalDateTime modDtime;
 
-    @OneToMany(mappedBy = "workList", fetch = FetchType.LAZY)
+    @Setter
+    @OneToMany(mappedBy = "workList", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Card> card;
 
     @Builder
@@ -54,8 +56,12 @@ public class WorkList {
                     LocalDateTime regDtime,
                     String modId,
                     LocalDateTime modDtime
-    ) throws UnsupportedEncodingException {
-        this.workListTitle = URLDecoder.decode(workListTitle,"UTF-8");
+    ) {
+        try {
+            this.workListTitle = URLDecoder.decode(workListTitle,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         this.workListOrd = workListOrd;
         this.useYn = useYn;
         this.regId = regId;
@@ -64,14 +70,18 @@ public class WorkList {
         this.modDtime = modDtime;
     }
 
-    public void changeWorkList(WorkListDto workListDto, String modId) throws UnsupportedEncodingException {
-        this.workListTitle = URLDecoder.decode(workListDto.getWorkListTitle(),"UTF-8");;
+    public void changeWorkList(WorkListRequest workListRequest, String modId) {
+        try {
+            this.workListTitle = URLDecoder.decode(workListRequest.getWorkListTitle(),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         this.modId = modId;
         this.modDtime = LocalDateTime.now();
     }
 
-    public WorkListDto convertWorkListDto(){
-        return WorkListDto.builder()
+    public WorkListResponse convertWorkListDto(){
+        return WorkListResponse.builder()
                 .workListId(this.workListId)
                 .workListTitle(this.workListTitle)
                 .workListOrd(this.workListOrd)

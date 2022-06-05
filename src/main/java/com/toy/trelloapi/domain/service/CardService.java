@@ -1,6 +1,7 @@
 package com.toy.trelloapi.domain.service;
 
-import com.toy.trelloapi.domain.dto.CardDto;
+import com.toy.trelloapi.domain.dto.CardRequest;
+import com.toy.trelloapi.domain.dto.CardResponse;
 import com.toy.trelloapi.domain.entity.Card;
 import com.toy.trelloapi.domain.entity.WorkList;
 import com.toy.trelloapi.domain.exception.CardNotFoundException;
@@ -11,7 +12,6 @@ import com.toy.trelloapi.domain.repository.WorkListRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -22,17 +22,17 @@ public class CardService {
     private final CardRepository cardRepository;
     private final CardQueryRepository cardQueryRepository;
 
-    public CardDto saveCard(CardDto cardDto) throws UnsupportedEncodingException {
-        Optional<WorkList> optWorkList = workListRepository.findById(cardDto.getWorkListId());
+    public CardResponse saveCard(CardRequest cardRequest) {
+        Optional<WorkList> optWorkList = workListRepository.findById(cardRequest.getWorkListId());
         WorkList workList = optWorkList.orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
 
         LocalDateTime currentDateTime = LocalDateTime.now();
-        Long nextCardOrd = getNextCardOrd();
+        Long nextCardOrd = getNextCardOrd(cardRequest.getWorkListId());
         return cardRepository.save(
                 Card.builder()
                         .workList(workList)
-                        .cardTitle(cardDto.getCardTitle())
-                        .cardDesc(cardDto.getCardDesc())
+                        .cardTitle(cardRequest.getCardTitle())
+                        .cardDesc(cardRequest.getCardDesc())
                         .cardOrd(nextCardOrd)
                         .regId("admin")
                         .regDtime(currentDateTime)
@@ -43,18 +43,18 @@ public class CardService {
         ).convertCardDto();
     }
 
-    public CardDto getCardById(Long cardId){
+    public CardResponse getCardById(Long cardId){
         Card card = cardRepository.findById(cardId)
                                 .orElseThrow(() -> new CardNotFoundException("해당 카드를 찾을 수 없습니다."));
         return card.convertCardDto();
     }
 
-    private Long getNextCardOrd() { return cardQueryRepository.findLastCardOrd() + 1000L; }
+    private Long getNextCardOrd(Long workListId) { return cardQueryRepository.findLastCardOrd(workListId) + 1000L; }
 
-    public CardDto updateCard(CardDto cardDto) throws UnsupportedEncodingException {
-        Card card = cardRepository.findById(cardDto.getCardId())
+    public CardResponse updateCard(Long cardId, CardRequest cardRequest){
+        Card card = cardRepository.findById(cardId)
                 .orElseThrow(() -> new CardNotFoundException("해당 카드를 찾을 수 없습니다."));
-        card.changeCard(cardDto, "admin");
+        card.changeCard(cardRequest, "admin");
         return card.convertCardDto();
     }
 }

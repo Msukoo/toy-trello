@@ -6,45 +6,39 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class CardDto {
+public class WorkListResponse {
 
     private Long workListId;
-    private Long cardId;
-    private String cardTitle;
-    private String cardDesc;
-    private Long cardOrd;
+    private String workListTitle;
+    private Long workListOrd;
     private String regId;
     private LocalDateTime regDtime;
     private String modId;
     private LocalDateTime modDtime;
+    private List<CardResponse> cardList;
 
     @Builder
-    public CardDto(
+    public WorkListResponse(
             Long workListId,
-            Long cardId,
-            String cardTitle,
-            String cardDesc,
-            Long cardOrd,
+            String workListTitle,
+            Long workListOrd,
             String regId,
             LocalDateTime regDtime,
             String modId,
             LocalDateTime modDtime
-
-    ) {
+    ){
         this.workListId = workListId;
-        this.cardId = cardId;
-        this.cardTitle = cardTitle;
-        this.cardDesc = cardDesc;
-        this.cardOrd = cardOrd;
+        this.workListTitle = workListTitle;
+        this.workListOrd = workListOrd;
         this.regId = regId;
         this.regDtime = regDtime;
         this.modId = modId;
         this.modDtime = modDtime;
-
     }
 
 }

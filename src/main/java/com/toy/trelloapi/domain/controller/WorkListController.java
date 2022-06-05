@@ -1,7 +1,8 @@
 package com.toy.trelloapi.domain.controller;
 
 import com.toy.trelloapi.domain.dto.ChangeOrdInfo;
-import com.toy.trelloapi.domain.dto.WorkListDto;
+import com.toy.trelloapi.domain.dto.WorkListRequest;
+import com.toy.trelloapi.domain.dto.WorkListResponse;
 import com.toy.trelloapi.domain.service.ListService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,30 +22,37 @@ public class WorkListController {
     @ApiOperation(value = "메인 페이지 workList, card 목록 불러오기")
     @GetMapping("")
     public ResponseEntity findAll(){
-        List<WorkListDto> workLists = listService.findAll();
+        List<WorkListResponse> workLists = listService.findAll();
         return ResponseEntity.ok().body(workLists);
     }
 
     @ApiOperation(value = "WorkList 추가")
     @PostMapping("")
-    public ResponseEntity saveWorkList(@RequestBody String workListTitle) throws UnsupportedEncodingException {
-        WorkListDto workListDto = listService.saveWorkList(workListTitle);
-        return ResponseEntity.ok().body(workListDto);
+    public ResponseEntity saveWorkList(@RequestBody WorkListRequest workListRequest) throws UnsupportedEncodingException {
+        WorkListResponse workListResponse = listService.saveWorkList(workListRequest);
+        return ResponseEntity.ok().body(workListResponse);
     }
 
     @ApiOperation(value = "WorkList 수정")
     @PutMapping("/{workListId}")
-    public ResponseEntity updateWorkList(@PathVariable Long workListId, @RequestBody WorkListDto workListDto) throws UnsupportedEncodingException {
-        workListDto.setWorkListId(workListId);
-        WorkListDto changeWorkList = listService.updateWorkList(workListDto);
+    public ResponseEntity updateWorkList(@PathVariable Long workListId, @RequestBody WorkListRequest workListRequest) throws UnsupportedEncodingException {
+        workListRequest.setWorkListId(workListId);
+        WorkListResponse changeWorkList = listService.updateWorkList(workListRequest);
         return ResponseEntity.ok().body(changeWorkList);
     }
 
     @ApiOperation(value = "WorkList 이동")
     @PutMapping("/move/{workListId}")
     public ResponseEntity moveWorkList(@PathVariable Long workListId, @RequestBody ChangeOrdInfo changeOrdInfo) {
-        WorkListDto workListDto = listService.moveWorkList(workListId, changeOrdInfo.getRightOrd());
-        return ResponseEntity.ok().body(workListDto);
+        WorkListResponse workListResponse = listService.moveWorkList(workListId, changeOrdInfo.getRightOrd());
+        return ResponseEntity.ok().body(workListResponse);
+    }
+
+    @ApiOperation(value = "WorkList 복사")
+    @PostMapping("/copy/{workListId}")
+    public ResponseEntity copyWorkList(@PathVariable Long workListId, @RequestBody ChangeOrdInfo changeOrdInfo) throws UnsupportedEncodingException {
+        WorkListResponse workListResponse = listService.copyWorkList(workListId, changeOrdInfo.getRightOrd());
+        return ResponseEntity.ok().body(workListResponse);
     }
 
 }
