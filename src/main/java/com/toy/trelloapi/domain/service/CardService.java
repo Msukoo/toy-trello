@@ -11,6 +11,7 @@ import com.toy.trelloapi.domain.repository.CardRepository;
 import com.toy.trelloapi.domain.repository.WorkListRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -22,6 +23,7 @@ public class CardService {
     private final CardRepository cardRepository;
     private final CardQueryRepository cardQueryRepository;
 
+    @Transactional
     public CardResponse saveCard(CardRequest cardRequest) {
         Optional<WorkList> optWorkList = workListRepository.findById(cardRequest.getWorkListId());
         WorkList workList = optWorkList.orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
@@ -51,6 +53,7 @@ public class CardService {
 
     private Long getNextCardOrd(Long workListId) { return cardQueryRepository.findLastCardOrd(workListId) + 1000L; }
 
+    @Transactional
     public CardResponse updateCard(Long cardId, CardRequest cardRequest){
         Card card = cardRepository.findById(cardId)
                 .orElseThrow(() -> new CardNotFoundException("해당 카드를 찾을 수 없습니다."));
