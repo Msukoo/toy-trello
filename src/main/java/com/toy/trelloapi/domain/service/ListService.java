@@ -72,25 +72,22 @@ public class ListService {
     }
 
     @Transactional
-    public WorkListResponse moveWorkList(Long workListId, long rightOrd) {
-        Long destinationOrd = findDestinationOrd(rightOrd);
+    public WorkListResponse moveWorkList(Long workListId, long newOrder) {
         WorkList workList = workListRepository.findById(workListId)
                 .orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
-        workList.changeOrd(destinationOrd, "admin");
+        workList.changeOrd(newOrder, "admin");
         return workList.convertWorkListDto();
     }
 
     @Transactional
-    public WorkListResponse copyWorkList(Long workListId, long rightOrd) {
+    public WorkListResponse copyWorkList(Long workListId, long newOrder) {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
-        Long destinationOrd = findDestinationOrd(rightOrd);
         WorkList workList = workListRepository.findById(workListId)
                 .orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
-
         WorkList copiedWorkList = WorkList.builder()
                 .workListTitle(workList.getWorkListTitle())
-                .workListOrd(destinationOrd)
+                .workListOrd(newOrder)
                 .regId("admin")
                 .regDtime(currentDateTime)
                 .useYn(true)

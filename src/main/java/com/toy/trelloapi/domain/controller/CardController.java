@@ -20,7 +20,9 @@ public class CardController {
 
     private final CardService cardService;
 
-    @ApiOperation(value = "Card 저장")
+    @ApiOperation(value = "Card 저장", notes = "설명 : Card 저장 <br/><br/>"
+                                             + "카드 생성"
+    )
     @PostMapping("")
     public ResponseEntity saveCardList(@RequestBody CardRequest cardRequest) {
         CardResponse cardResponse = cardService.saveCard(cardRequest);
@@ -39,6 +41,9 @@ public class CardController {
 //    }
 
     @ApiOperation(value = "Card 수정")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cardId", value = "카드 ID", required = true, dataType = "Long", paramType = "path", example = "1")
+    })
     @PutMapping("/{cardId}")
     public ResponseEntity updateCard(@PathVariable Long cardId, @RequestBody CardRequest cardRequest) {
         CardResponse cardResponse = cardService.updateCard(cardId, cardRequest);

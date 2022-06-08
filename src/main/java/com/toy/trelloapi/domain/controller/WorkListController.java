@@ -1,6 +1,5 @@
 package com.toy.trelloapi.domain.controller;
 
-import com.toy.trelloapi.domain.dto.ChangeOrdInfo;
 import com.toy.trelloapi.domain.dto.WorkListRequest;
 import com.toy.trelloapi.domain.dto.WorkListResponse;
 import com.toy.trelloapi.domain.service.ListService;
@@ -42,15 +41,15 @@ public class WorkListController {
 
     @ApiOperation(value = "WorkList 이동")
     @PutMapping("/move/{workListId}")
-    public ResponseEntity moveWorkList(@PathVariable Long workListId, @RequestBody ChangeOrdInfo changeOrdInfo) {
-        WorkListResponse workListResponse = listService.moveWorkList(workListId, changeOrdInfo.getRightOrd());
+    public ResponseEntity moveWorkList(@PathVariable Long workListId, @RequestBody Long newOrder) {
+        WorkListResponse workListResponse = listService.moveWorkList(workListId, newOrder);
         return ResponseEntity.ok().body(workListResponse);
     }
 
     @ApiOperation(value = "WorkList 복사")
     @PostMapping("/copy/{workListId}")
-    public ResponseEntity copyWorkList(@PathVariable Long workListId, @RequestBody ChangeOrdInfo changeOrdInfo) {
-        WorkListResponse workListResponse = listService.copyWorkList(workListId, changeOrdInfo.getRightOrd());
+    public ResponseEntity copyWorkList(@PathVariable Long workListId, @RequestBody Long newOrder) {
+        WorkListResponse workListResponse = listService.copyWorkList(workListId, newOrder);
         return ResponseEntity.ok().body(workListResponse);
     }
 
