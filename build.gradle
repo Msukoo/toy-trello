@@ -89,6 +89,6 @@ compileQuerydsl{
     options.annotationProcessorPath = configurations.querydsl
 }
 
-bootJar {
-    destinationDirectory = file("./target")
+jar {
+    enabled = false
 }

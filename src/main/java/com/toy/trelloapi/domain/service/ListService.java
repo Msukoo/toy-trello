@@ -6,7 +6,6 @@ import com.toy.trelloapi.domain.dto.WorkListResponse;
 import com.toy.trelloapi.domain.entity.Card;
 import com.toy.trelloapi.domain.entity.WorkList;
 import com.toy.trelloapi.domain.exception.WorkListNotFoundException;
-import com.toy.trelloapi.domain.repository.CardQueryRepository;
 import com.toy.trelloapi.domain.repository.WorkListQueryRepository;
 import com.toy.trelloapi.domain.repository.WorkListRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
 public class ListService {
 
     private final WorkListRepository workListRepository;
-    private final CardQueryRepository cardQueryRepository;
     private final WorkListQueryRepository workListQueryRepository;
 
     public WorkListResponse saveWorkList(WorkListRequest workListRequest) {
