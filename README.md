@@ -8,3 +8,6 @@ trello-demo rest api
 + mariadb
 + JPA
 + querydsl
+
+## :pushpin: Swagger URI
+https://43.200.85.188:8080/swagger-ui.html
