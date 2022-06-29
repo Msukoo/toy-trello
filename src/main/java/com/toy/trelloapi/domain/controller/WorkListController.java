@@ -1,5 +1,6 @@
 package com.toy.trelloapi.domain.controller;
 
+import com.toy.trelloapi.domain.dto.SwapRequest;
 import com.toy.trelloapi.domain.dto.WorkListRequest;
 import com.toy.trelloapi.domain.dto.WorkListResponse;
 import com.toy.trelloapi.domain.service.ListService;
@@ -51,6 +52,13 @@ public class WorkListController {
     public ResponseEntity copyWorkList(@PathVariable Long workListId, @RequestBody Long newOrder) {
         WorkListResponse workListResponse = listService.copyWorkList(workListId, newOrder);
         return ResponseEntity.ok().body(workListResponse);
+    }
+
+    @ApiOperation(value = "WorkList 교환")
+    @PutMapping("/swap")
+    public ResponseEntity swapWorkList(@RequestBody SwapRequest swapRequest) {
+        listService.swapWorkList(swapRequest);
+        return ResponseEntity.ok().build();
     }
 
 }

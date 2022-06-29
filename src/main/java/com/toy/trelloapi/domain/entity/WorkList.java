@@ -98,6 +98,10 @@ public class WorkList {
         this.modDtime = LocalDateTime.now();
     }
 
+    public void swapWorkListOrd(Long newOrd) {
+        this.workListOrd = newOrd;
+    }
+
 
 //    @PrePersist
 //    public void regDtime() {
