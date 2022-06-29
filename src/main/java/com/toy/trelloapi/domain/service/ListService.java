@@ -1,6 +1,7 @@
 package com.toy.trelloapi.domain.service;
 
 import com.toy.trelloapi.domain.dto.CardResponse;
+import com.toy.trelloapi.domain.dto.SwapRequest;
 import com.toy.trelloapi.domain.dto.WorkListRequest;
 import com.toy.trelloapi.domain.dto.WorkListResponse;
 import com.toy.trelloapi.domain.entity.Card;
@@ -115,9 +116,24 @@ public class ListService {
         return workListRepository.save(copiedWorkList).convertWorkListDto();
     }
 
+    @Transactional
+    public void swapWorkList(SwapRequest swapRequest) {
+        WorkList workList1 = workListRepository.findById(swapRequest.getWorkListId1())
+                .orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
+        WorkList workList2 = workListRepository.findById(swapRequest.getWorkListId2())
+                .orElseThrow(() -> new WorkListNotFoundException("해당 리스트를 찾을 수 없습니다."));
+
+        Long sort1 = workList1.getWorkListOrd();
+        Long sort2 = workList2.getWorkListOrd();
+        workList1.swapWorkListOrd(sort2);
+        workList2.swapWorkListOrd(sort1);
+    }
+
     private Long findDestinationOrd(long rightOrd) {
         Long leftOrd = workListQueryRepository.findLeftWorkListOrd(rightOrd);
         Long destinationOrd = (rightOrd + leftOrd) / 2 != 0 ? (rightOrd + leftOrd) / 2 : 1L;
         return destinationOrd;
     }
+
+
 }
